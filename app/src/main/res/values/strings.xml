@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CodiceFiscale</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+    <string name="dataDiNascita">Data di Nascita</string>
+    <string name="luogoDiNascita">Luogo di Nascita</string>
+    <string name="sesso">Sesso</string>
+    <string name="maschio">M</string>
+    <string name="femmina">F</string>
+    <string name="calcola">Calcola</string>
+</resources>
