@@ -1,8 +1,5 @@
 package com.example.porfirio.codicefiscale.engine;
 
-import java.io.IOException;
-
-
 public class Engine {
 
 	private Person p;
@@ -20,8 +17,8 @@ public class Engine {
 	private String vocali_COGNOME="";
 	private String consonanti_NOME="";
 	private String vocali_NOME="";
-	
-	public Engine(Person person) throws IOException{
+
+	public Engine(Person person) {
 		
 		this.p=person;
 		
@@ -166,8 +163,8 @@ public class Engine {
 	}
 	
 	private String codiceCitta() {
-        for (int i=0;i<CitiesCodes.cities.size();i++)       	
-        	if (CitiesCodes.cities.get(i).toString()==citta)
+		for (int i = 0; i < CitiesCodes.cities.size(); i++)
+			if (CitiesCodes.cities.get(i).toString().equals(citta))
         		return CitiesCodes.codes.get(i).toString();
 		return "";
     }
@@ -190,7 +187,7 @@ public class Engine {
 		case 11: s+="S";break;
 		case 12: s+="T";break;
 		}
-		if(sesso=="M"){
+		if (sesso.equals("M")) {
 			if(giorno<10)
 				s+="0"+giorno;
 			else
@@ -268,9 +265,7 @@ public class Engine {
 	}
 
 	private boolean isVocal(char c){
-		if(c=='A' || c=='E' || c=='I' || c=='O' || c=='U')
-			return true;
-		return false;
+		return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
 	}
 	
 }

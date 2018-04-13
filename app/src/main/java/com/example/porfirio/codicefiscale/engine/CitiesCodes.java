@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.StringTokenizer;
 
 //https://goo.gl/3amGB4
@@ -72,9 +71,8 @@ public class CitiesCodes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return;
 
-    }
+	}
 
 
 }

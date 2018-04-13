@@ -1,10 +1,11 @@
 package com.example.porfirio.codicefiscale;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -24,18 +25,9 @@ import com.example.porfirio.codicefiscale.engine.Engine;
 import com.example.porfirio.codicefiscale.engine.Person;
 import com.example.porfirio.codicefiscale.engine.ReverseGeocoding;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.charset.Charset;
-
 public class MainActivity extends Activity {
-    CitiesCodes cc;
-    Person person = new Person();
+    private CitiesCodes cc;
+    private Person person = new Person();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +77,6 @@ public class MainActivity extends Activity {
         editLuogo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 person.setBornCity(CitiesCodes.cities.get(pos));
-                return;
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -105,8 +96,7 @@ public class MainActivity extends Activity {
                 person.setDay(Integer.toString(dayOfMonth));
                 person.setMonth(Integer.toString(month+1));
                 person.setYear(Integer.toString(year));
-                btnDataDiNascita.setText(Integer.toString(dayOfMonth)+"/"+Integer.toString(month)+"/"+Integer.toString(year));
-                return;
+                btnDataDiNascita.setText(Integer.toString(dayOfMonth) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year));
             }
         },1980,1,1);
 
@@ -114,7 +104,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 //TODO: Apri dialog di scelta del tempo DatePickerDIalog
                 dpd.show();
-            };
+            }
         });
 
 
@@ -127,7 +117,6 @@ public class MainActivity extends Activity {
         editSesso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 person.setSex(adapterSesso.getItem(pos));
-                return;
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -137,19 +126,32 @@ public class MainActivity extends Activity {
         Button btnCalcola = (Button) findViewById(R.id.buttonCalcola);
         btnCalcola.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialoginterface, int i) {
+                        dialoginterface.dismiss();
+                    }
+                });
                 person.setName(editNome.getText().toString());
                 person.setSurname(editCognome.getText().toString());
 
-                Engine engine=null;
-                try {
-                    engine=new Engine(person);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                if (person.getName().contentEquals(""))
+                    dialog.setMessage("Nome non valido");
+                else if (person.getSurname().contentEquals(""))
+                    dialog.setMessage("Cognome non valido");
+                else if (person.getBornCity().contentEquals(""))
+                    dialog.setMessage("Luogo di nascita non valido");
+                else if (person.getDay() == 0 || person.getMonth() == 0 || person.getYear() == 0)
+                    dialog.setMessage("Data di nascita non valida");
+                else if (!person.getSex().contentEquals("M") && !person.getSex().contentEquals("F"))
+                    dialog.setMessage("Sesso non inserito");
+                else {
+                    Engine engine = null;
+                    engine = new Engine(person);
+                    txtCodice.setText(engine.getCode());
+                    dialog.setMessage(engine.getCode());
                 }
-                txtCodice.setText(engine.getCode());
-
-                return;
+                dialog.show();
             }
         });
 
