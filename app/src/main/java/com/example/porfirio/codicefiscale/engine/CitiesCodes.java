@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 public class CitiesCodes {
 	public static ArrayList<String> cities= new ArrayList<String>();
 	public static ArrayList<String> codes= new ArrayList<String>();
-	
+	//codice per cercare le città
 	public CitiesCodes(){
 	//leggi via internet da https://www.istat.it/it/archivio/6789
 	
